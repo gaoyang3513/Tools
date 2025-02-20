@@ -59,7 +59,7 @@ $(warning $(PATH))
 
 all: init libnl libopenssl wpa
 
-clean:
+clean: libnl_clean libopenssl_clean wpa_clean
 #       Directory
 	@if [ -d $(LOCAL_DIR)/output        ]; then rm -rf $(LOCAL_DIR)/output;        fi;
 	@if [ -d $(LOCAL_DIR)/__install     ]; then rm -rf $(LOCAL_DIR)/__install;     fi;
@@ -115,7 +115,7 @@ wpa: init
 		sed -i 's/^CONFIG_CTRL_IFACE_DBUS_INTRO=y/#CONFIG_CTRL_IFACE_DBUS_INTRO=y/g'  .config; \
 		sed -i '$$a CFLAGS += -I$(OUTPUT_DIR)/include -I$(OUTPUT_DIR)/include/libnl3' .config; \
 		sed -i '$$a LIBS   += -L$(OUTPUT_DIR)/lib -L$(OUTPUT_DIR)/lib64'              .config; \
-		$(MAKE) -C wpa_supplicant CC=$(CC) -j$(MULTI_CORES); \
+		$(MAKE) CC=$(CC) -j$(MULTI_CORES); \
 	fi;
 	cp -arf $(wpa_dir)/wpa_supplicant/wpa_supplicant $(OUTPUT_DIR)/bin;
 	cp -arf $(wpa_dir)/wpa_supplicant/wpa_cli        $(OUTPUT_DIR)/bin;
